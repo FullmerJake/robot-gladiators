@@ -4,6 +4,29 @@
 //      * Defeat each enemy robot
 //"Lose" - Player robot's health is zero or less
 
+var fightOrSkip = function() {
+    //ask the user if they'd like to fight or skip using function
+    var promptFight = window.prompt('Would you like to FIGHT or SKIP this battle?');
+
+    //conditional recursive function call
+    if(promptFight === '' || promptFight === null){
+        window.alert('You need to enter a valid answer! Please try again.');
+        return fightOrSkip;
+    };
+
+    //if user picks the 'skip' confirm and then stop the loop
+    if (promptFight === 'skip' || promptFight === 'SKIP'){
+        //confirm user wants to skip
+        var confirmSkip = window.confirm("Are you sure you'd like to skip?");
+        //if yes (true), leave fight
+        if(confirmSkip){
+            window.alert(playerInfo.name + ' has decided to skip this fight. Goodbye.');
+            //subtract money from playerMoney for skipping
+            playerInfo.playerMoney = playerInfo.money - 10;
+            shop();
+        };
+    };
+};
 
 var fight = function(enemy){
     while(enemy.health > 0 && playerInfo.health > 0){
@@ -11,18 +34,7 @@ var fight = function(enemy){
         var promptFight = window.prompt("Would you like to FIGHT or SKIP this battle? Enter 'FIGHT' or 'SKIP' to choose.");
 
         //if a player chooses to skip
-        if (promptFight === "skip" || promptFight === "SKIP") {
-            // confirm user wants to skip
-            var confirmSkip = window.confirm("Are you sure you'd like to quit");
-
-            //if yes (true), leave fight
-            if (confirmSkip){
-                window.alert(playerInfo.name + " has chosen to skip this fight!");
-                //subtract money from playerMoney for skipping
-                playerInfo.money = Math.max(0, playerInfo.money - 10);
-                break;
-                }  
-            }
+        fightOrSkip();
 
             //generate random damage value based on player's attack power
             var damage = randomNumber(playerInfo.attack -3, playerInfo.attack);
